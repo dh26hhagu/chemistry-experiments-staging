@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng hợp thí nghiệm</title>
+    <style>
+        :root {
+            --bg: #eef2ff;
+            --surface: #ffffff;
+            --surface-2: #f8faff;
+            --primary: #4f46e5;
+            --primary-2: #7c3aed;
+            --primary-soft: rgba(79, 70, 229, 0.14);
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: rgba(15, 23, 42, 0.08);
+            --shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 16px 36px rgba(79, 70, 229, 0.18);
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 5%, #dbe5ff 0%, transparent 42%),
+                radial-gradient(circle at 90% 0%, #ede9fe 0%, transparent 36%),
+                linear-gradient(180deg, #f6f9ff 0%, var(--bg) 100%);
+            line-height: 1.6;
+            opacity: 0;
+            animation: pageFade 0.7s ease forwards;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1140px, 92vw);
+            margin: 0 auto;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 320px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            background: linear-gradient(130deg, rgba(46, 55, 170, 0.72), rgba(120, 60, 204, 0.62)),
+                        url("hoahoc2.jpg") center/cover no-repeat;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(8, 15, 48, 0.48), transparent 35%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            width: min(860px, 92vw);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 40px rgba(10, 26, 81, 0.2);
+            padding: clamp(1.3rem, 2.8vw, 2rem) clamp(1rem, 3vw, 2.4rem);
+            transform: translateY(14px);
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+            animation-delay: 0.08s;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.75rem);
+            line-height: 1.15;
+            color: #2d3db8;
+            margin-bottom: 0.35rem;
+        }
+
+        .hero p {
+            color: #334155;
+            font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+        }
+
+        .nav-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            background: rgba(255, 255, 255, 0.82);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+        }
+
+        .navbar {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.9rem 0;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.62rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(79, 70, 229, 0.26);
+            background: linear-gradient(125deg, #ffffff, #edf2ff);
+            color: #3442ad;
+            font-weight: 700;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.16);
+        }
+
+        .home-btn:hover,
+        .home-btn:focus-visible {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 14px 26px rgba(79, 70, 229, 0.23);
+            border-color: rgba(79, 70, 229, 0.45);
+            outline: none;
+        }
+
+        .home-btn .arrow {
+            font-size: 1.03rem;
+            line-height: 1;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.32rem;
+            padding: 0.65rem 0.95rem;
+            border-radius: 12px;
+            color: #334155;
+            font-weight: 600;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-main:hover,
+        .nav-main:focus-visible {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .nav-arrow {
+            border: none;
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.82rem;
+            line-height: 1;
+            padding: 0.25rem;
+            transition: transform 0.18s ease;
+        }
+
+        .nav-arrow[aria-expanded="true"] {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            min-width: 190px;
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.14);
+            overflow: hidden;
+            transform-origin: top left;
+            animation: dropdownIn 0.22s ease;
+        }
+
+        .nav-dropdown.open {
+            display: block;
+        }
+
+        .nav-dropdown a {
+            display: block;
+            padding: 0.72rem 0.95rem;
+            font-weight: 500;
+            color: #334155;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-dropdown a:hover,
+        .nav-dropdown a:focus-visible {
+            background: #eef2ff;
+            color: var(--primary);
+            outline: none;
+        }
+
+        .nav-search {
+            flex: 0 1 320px;
+            position: relative;
+        }
+
+        .nav-search input {
+            width: 100%;
+            border: 1px solid rgba(100, 116, 139, 0.35);
+            border-radius: 999px;
+            padding: 0.72rem 1.1rem;
+            font-size: 0.95rem;
+            color: #0f172a;
+            background: #fff;
+            transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+        }
+
+        .nav-search input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-soft), 0 10px 20px rgba(79, 70, 229, 0.15);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        main {
+            padding: 2.2rem 0 3rem;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: var(--radius-xl);
+            backdrop-filter: blur(8px);
+            padding: clamp(1.1rem, 2vw, 1.4rem);
+            box-shadow: 0 12px 30px rgba(79, 70, 229, 0.12);
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.72rem;
+            background: linear-gradient(180deg, #ffffff, var(--surface-2));
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.26s ease, box-shadow 0.26s ease, border-color 0.26s ease;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeUp 0.46s ease forwards;
+            min-height: 170px;
+        }
+
+        .card:hover,
+        .card:focus-visible {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(79, 70, 229, 0.35);
+            outline: none;
+        }
+
+        .card-thumb {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #e0e7ff, #ede9fe);
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            padding: 1rem;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.34rem 0.62rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.72);
+            color: #fff;
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.1px;
+            backdrop-filter: blur(4px);
+        }
+
+        .card h3 {
+            color: #1e2f9a;
+            font-size: 1.03rem;
+            line-height: 1.35;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 0.93rem;
+            margin: 0;
+        }
+
+        .card-channel {
+            color: #6b7280;
+            font-size: 0.84rem;
+            font-weight: 500;
+        }
+
+        .hidden-empty {
+            color: var(--muted);
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        footer {
+            margin-top: 1rem;
+            border-top: 1px solid rgba(100, 116, 139, 0.2);
+            padding: 1.2rem 0 1.7rem;
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @keyframes pageFade {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dropdownIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98) translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @media (max-width: 930px) {
+            .navbar {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+
+            .nav-search {
+                width: min(480px, 100%);
+                flex-basis: 100%;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .hero {
+                min-height: 270px;
+            }
+
+            .hero-content {
+                border-radius: 18px;
+            }
+
+            .nav-center {
+                justify-content: center;
+            }
+
+            .nav-dropdown {
+                left: 50%;
+                transform: translateX(-50%);
+                transform-origin: top center;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding-top: 1.5rem;
+            }
+        }
+    </style>
+    <script src="data.js"></script>
+    <link rel="stylesheet" href="ui-system.css">
+</head>
+<body>
+    <header>
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Tổng hợp thí nghiệm Hóa học</h1>
+                <p>Kho tài liệu trực quan cho học sinh THPT theo từng khối lớp.</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-wrap">
+        <nav class="container navbar" aria-label="Điều hướng chính">
+            <a href="index.html" class="home-btn" aria-label="Quay về trang chủ">
+                <span class="arrow" aria-hidden="true">←</span>
+                <span>Trang chủ</span>
+            </a>
+
+            <div class="nav-center">
+                <div class="nav-item">
+                    <a href="thinghiem.html" class="nav-main">Hóa học</a>
+                    <button class="nav-arrow" id="menuToggle" aria-expanded="false" aria-controls="experimentMenu" aria-label="Mở menu lớp">▼</button>
+                    <div class="nav-dropdown" id="experimentMenu" role="menu" aria-label="Danh sách lớp" aria-hidden="true">
+                        <a href="lop10.html" role="menuitem">Lớp 10</a>
+                        <a href="lop11.html" role="menuitem">Lớp 11</a>
+                        <a href="lop12.html" role="menuitem">Lớp 12</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-main" aria-disabled="true">Coming soon</a>
+            </div>
+
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="🔍 Tìm theo lớp, chủ đề..." autocomplete="off">
+            </div>
+        </nav>
+    </div>
+
+    <main class="container">
+        <section class="section-card">
+            <div class="card-container" id="cardContainer"></div>
+            <p class="hidden-empty" id="emptyMessage">Không tìm thấy nội dung phù hợp. Hãy thử từ khóa khác.</p>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 – Website thí nghiệm Hóa học | Sinh viên thực hiện
+    </footer>
+
+    <script>
+        const CATEGORY_DATA = [
+            {
+                title: "Toàn bộ thí nghiệm",
+                link: "toanbo.html"
+            },
+            {
+                title: "Hóa học lớp 10",
+                link: "lop10.html"
+            },
+            {
+                title: "Hóa học lớp 11",
+                link: "lop11.html"
+            },
+            {
+                title: "Hóa học lớp 12",
+                link: "lop12.html"
+            }
+        ];
+
+        function removeVietnameseTones(str) {
+            return (str || "")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/đ/g, "d")
+                .replace(/Đ/g, "D")
+                .toLowerCase();
+        }
+
+        function escapeHtml(text = "") {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+        function renderCards(items, type = "category") {
+            const container = document.getElementById("cardContainer");
+            const emptyMessage = document.getElementById("emptyMessage");
+
+            container.innerHTML = "";
+
+            if (!items || !items.length) {
+                emptyMessage.style.display = "block";
+                return;
+            }
+
+            emptyMessage.style.display = "none";
+
+            items.forEach((item, index) => {
+                const card = document.createElement("a");
+                card.className = "card";
+                card.style.animationDelay = `${index * 55}ms`;
+
+                const destination = type === "experiment" ? (item.ytLink || item.link || "") : (item.link || "");
+                if (destination) {
+                    card.href = destination;
+                } else {
+                    card.setAttribute("aria-disabled", "true");
+                    card.tabIndex = -1;
+                }
+
+                if (type === "experiment" && destination) {
+                    card.target = "_blank";
+                    card.rel = "noopener noreferrer";
+                }
+
+                if (type === "category") {
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <h3>${escapeHtml(item.title || "")}</h3>
+                            <p>${escapeHtml(item.description || "Khám phá nội dung theo từng lớp.")}</p>
+                        </div>
+                    `;
+                } else {
+                    const thumbnail = item.thumbnail || "";
+                    const channel = item.channel || "Kênh: Không rõ";
+                    const badge = item.badge || "Không rõ lớp";
+                    card.innerHTML = `
+                        <span class="card-badge">${escapeHtml(badge)}</span>
+                        ${thumbnail ? `<img class="card-thumb" src="${escapeHtml(thumbnail)}" alt="Thumbnail ${escapeHtml(item.title || "video")}" loading="lazy">` : ""}
+                        <div class="card-content">
+                            <h3>${escapeHtml(item.title || "Video thí nghiệm")}</h3>
+                            <p>Nhấn để xem video tại trang ${escapeHtml(badge)}</p>
+                            <p class="card-channel">${escapeHtml(channel)}</p>
+                        </div>
+                    `;
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        function searchExperiment(value) {
+            const normalizedInput = removeVietnameseTones(value.trim());
+
+            if (!normalizedInput) {
+                renderCards(CATEGORY_DATA, "category");
+                return;
+            }
+
+            if (typeof ALL_EXPERIMENTS !== "undefined") {
+                const filtered = ALL_EXPERIMENTS.filter((item) => {
+                    const normalizedText = removeVietnameseTones(`${item.title} ${item.keywords} ${item.badge}`);
+                    return normalizedText.includes(normalizedInput);
+                });
+                renderCards(filtered, "experiment");
+            } else {
+                console.error("Lỗi: Không tìm thấy dữ liệu ALL_EXPERIMENTS. Bạn hãy chắc chắn file data.js đã nằm cùng thư mục.");
+            }
+        }
+
+        const menuToggle = document.getElementById("menuToggle");
+        const experimentMenu = document.getElementById("experimentMenu");
+
+        menuToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const isOpen = experimentMenu.classList.toggle("open");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            experimentMenu.setAttribute("aria-hidden", String(!isOpen));
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".nav-item")) {
+                experimentMenu.classList.remove("open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                experimentMenu.setAttribute("aria-hidden", "true");
+            }
+        });
+
+        document.getElementById("searchInput").addEventListener("input", (event) => {
+            searchExperiment(event.target.value);
+        });
+
+        renderCards(CATEGORY_DATA, "category");
+    </script>
+    <script src="ui-enhance.js"></script>
+</body>
+</html>

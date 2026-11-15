@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tổng hợp thí nghiệm Hóa 10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body { margin:0; font-family: "Segoe UI", Arial, sans-serif; background:#f5f6f8; color:#222; }
+        /* ===== HEADER ===== */
+        .top { padding:20px 30px; background:white; border-bottom:1px solid #ddd; }
+        .top h1 { margin:0; font-size:28px; }
+        .top-bar { display:flex; align-items:center; justify-content:space-between; }
+        .back-btn { width:42px; height:42px; border-radius:50%; background:#7a2bc2; color:white; text-decoration:none; display:flex; align-items:center; justify-content:center; font-size:18px; transition:0.3s; }
+        .back-btn:hover { background:#5a1e96; transform:scale(1.05); }
+        .search-box { margin-top:15px; }
+        .search-box input { width:100%; max-width:420px; padding:10px 14px; font-size:15px; border-radius:8px; border:1px solid #ccc; outline:none; }
+        .search-box input:focus { border-color:#7a2bc2; }
+
+        /* ===== GRID & CARD ===== */
+        .container { padding:30px; }
+        .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:25px; }
+        .card { background:white; border-radius:14px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.08); transition:0.3s; }
+        .card:hover { transform:translateY(-5px); }
+        .thumb { position:relative; height:150px; background:#ddd; }
+        .thumb img { width:100%; height:100%; object-fit:cover; }
+        .play-btn { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.6); color:white; font-size:30px; padding:12px 18px; border-radius:50%; text-decoration:none; }
+        .card-content { padding:15px; }
+        .card-content h3 { margin:0 0 10px; font-size:18px; }
+        .channel { color: #666; font-size: 14px; margin: 0; }
+    </style>
+    <link rel="stylesheet" href="ui-system.css">
+    <link rel="stylesheet" href="search-filter.css">
+</head>
+<body>
+
+    <div class="top">
+        <div class="top-bar">
+            <h1><span id="resultCount" aria-live="polite" aria-atomic="true">0</span> Kết quả</h1>
+            <a href="index.html" class="back-btn" title="Quay lại">⬅</a>
+        </div>
+        <div class="search-box search-controls">
+            <label class="visually-hidden" for="searchInput">Tìm theo tiêu đề, kênh YouTube hoặc từ khóa</label>
+            <input type="text" id="searchInput" placeholder="🔍 Tìm thí nghiệm, video, nội dung...">
+            <button type="button" id="clearSearchBtn">Xóa tìm kiếm</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <p id="noResultMsg" class="search-no-results" role="status" aria-live="polite" hidden>Không tìm thấy video thí nghiệm nào phù hợp.</p>
+        
+        <div class="grid" id="videoGrid"></div>
+
+    <script type="module">
+        import * as repository from "./experiment-repository.js";
+        import { renderLoading, renderError } from "./components/ui.js";
+        import { createSearchIndex, filterSearchIndex } from "./search-filter.js";
+
+        // Legacy L11 snapshot for ordered migration parity; it is not used to render cards.
+        const LEGACY_BASELINE = [{"youtubeId":"mfO5ocybEj4","titleMarkup":"Thí nghiệm Ảnh hưởng của nhiệt độ đến sự chuyển dịch cân bằng của phản ứng 2NO<sub>2 (nâu đỏ) </sub> ⇄ N<sub>2</sub>O<sub>4 (không màu)</sub>","channel":"Kênh: ABC Chemistryt"},{"youtubeId":"8cpvwJ8-B6I","titleMarkup":"Thí nghiệm Ảnh hưởng của nhiệt độ đến sự chuyển dịch cân bằng của phản ứng thủy phân Sodium Acetate (CH<sub>3</sub>COONa + H<sub>2</sub>O ⇌ CH<sub>3</sub>COOH + NaOH","channel":"Kênh: Edusmart"},{"youtubeId":"AhIUrh4vEnU","titleMarkup":"Thí nghiệm nghiên cứu ảnh hưởng của nồng độ đến sự chuyển dịch cân bằng (hệ CH<sub>3</sub>COONa","channel":"Kênh: Edusmart"},{"youtubeId":"cRMZ0HH6R0Q","titleMarkup":"Thí nghiệm tính dẫn điện của nước, dung dịch đường và dung dịch muối ăn","channel":"Kênh: Học văn cùng cô Thu"},{"youtubeId":"nYGuUQS1NF8","titleMarkup":"Thí nghiệm tìm hiểu về chất điện li và chất không điện li","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"YknbC8_rTL4","titleMarkup":"Thí nghiệm cách làm chất chỉ thị màu từ hoa đậu biếc/bắp cải tím","channel":"Kênh: Edusmart"},{"youtubeId":"34fd06rhrRo","titleMarkup":"Thí nghiệm chuẩn độ acid - base (Dùng dung dịch NaOH chuẩn độ dung dịch HCl)","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"DKYWj4QrXtc","titleMarkup":"Thí nghiệm nhận biết ion ammonium trong phân đạm","channel":"Kênh: Edusmart"},{"youtubeId":"0_gNRxKi-kE","titleMarkup":"Thí nghiệm Sulfur tác dụng với Sắt (Iron)","channel":"Kênh: Học Hóa Cùng Cô Ly"},{"youtubeId":"Shdtss0DKyA","titleMarkup":"Thí nghiệm Sulfur tác dụng với Oxygen","channel":"Kênh: Edusmart"},{"youtubeId":"IZzUKqydZao","titleMarkup":"Thí nghiệm Đồng (copper) tác dụng với dung dịch Sulfuric Acid đặc,nóng","channel":"Kênh: Học văn cùng cô Thu"},{"youtubeId":"Dvd_fqyFazc","titleMarkup":"Thí nghiệm dung dịch sulfuric acid đặc tác dụng với đường mía","channel":"Kênh: Học văn cùng cô Thu"},{"youtubeId":"-zR-uqLlyg0","titleMarkup":"Thí nghiệm nhận biết ion sulfate (dùng dung dịch muối barium)","channel":"Kênh: Học văn cùng cô Thu"},{"youtubeId":"kzC_1BzdDc4","titleMarkup":"Thí nghiệm chưng cất ethanol từ dung dịch ethanol - nước","channel":"Kênh: Tổ Hóa Trường Tây"},{"youtubeId":"QxH09kYOY6I","titleMarkup":"Thí nghiệm tách B-carotene từ nước ép cà rốt","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"Wuo8SachZYE","titleMarkup":"Thí nghiệm tinh chế muối","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"bnRR15ksyKQ","titleMarkup":"Thí nghiệm phản ứng Bromine hóa Hexane C<sub>6</sub>H<sub>14</sub>","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"VB1T8Ym19bY","titleMarkup":"Thí nghiệm phản ứng Oxi hóa Hexane C<sub>6</sub>H<sub>14</sub>","channel":"Kênh: Tổ Hóa Trường Tây Thạnh"},{"youtubeId":"lUbu8zZ7RSs","titleMarkup":"Thí nghiệm điều chế và thử tính chất hóa học của Ethylene C<sub>2</sub>H<sub>4</sub>","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"JXdy_RB7DyE","titleMarkup":"Thí nghiệm phản ứng Nitro hóa Benzene C<sub>6</sub>H<sub>6</sub>","channel":"Kênh: Smartschool-Trường học thông minh"},{"youtubeId":"mk9G-R-exkI","titleMarkup":"Thí nghiệm phản ứng cộng Chlorine và Benzene C<sub>6</sub>H<sub>6</sub>","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"0-Is2lVfuls","titleMarkup":"Thí nghiệm phản ứng oxi hoa Toluene và Benzen bằng dung dịch KMnO4","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"lUbu8zZ7RSs","titleMarkup":"Thí nghiệm điều chế và thử tính chất hóa học của Ethylene C<sub>2</sub>H<sub>4</sub><sub","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"JXdy_RB7DyE","titleMarkup":"Thí nghiệm phản ứng Nitro hóa Benzene C<sub>6</sub>H<sub>6</sub>","channel":"Kênh: Smartschool-Trường học thông minh"},{"youtubeId":"mk9G-R-exkI","titleMarkup":"Thí nghiệm phản ứng cộng Chlorine và Benzene C<sub>6</sub>H<sub>6</sub>","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"0-Is2lVfuls","titleMarkup":"Thí nghiệm phản ứng oxi hoa Toluene C<sub>6</sub>H<sub>5</sub>CH<sub>3</sub> và Benzene C<sub>6</sub>H<sub>6</sub> bằng dung dịch KMnO4","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"ozZ4E9pvevQ","titleMarkup":"Thí nghiệm Phản ứng thủy phân Bromoethane C<sub>2</sub>H<sub>5</sub>","channel":"Kênh: Ý Nguyễn Như"},{"youtubeId":"3fQjAP7bBvo","titleMarkup":"Thí nghiệm: Nghiên cứu về phản ứng cháy của Alcohol","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"--8iWaNOLKI","titleMarkup":"Thí nghiệm Copper(II) hydroxide tác dụng với Alcohol đa chức","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"3jYmkpTaj1g","titleMarkup":"Thí nghiệm Nghiên cứu phản ứng của Phenol với dung dịch NaOH và dung dịch Na<sub>2</sub>CO<sub>3</sub>","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"6YA95z4zXqg","titleMarkup":"Thí nghiệm Phản ứng của Phenol với nước Bromine","channel":"Kênh: ABC Chemistry"},{"youtubeId":"b98xqphz050","titleMarkup":"Thí nghiệm Phản ứng nitro hóa Phenol - tổng hợp Picric acid","channel":"Kênh: ABC Chemistry"},{"youtubeId":"4F8AJIguX8w","titleMarkup":"Thí nghiệm phản ứng của Aldehyde với thuốc thử Tollens","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"7j5ihOJDKeE","titleMarkup":"Thí nghiệm Phản ứng oxi hóa Aldehyde bằng Copper(II) Hydroxide","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"oGGp8pmm0Es","titleMarkup":"Thí nghiệm Phản ứng tạo Iodoform từ Acetone","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"JUSbWMP_rxA","titleMarkup":"Thí nghiệm tính acid của Acetic Acid","channel":"Kênh: Cô Bích Ngọc Hóa Học"},{"youtubeId":"d12h3HMx4sc","titleMarkup":"Thí nghiệm phản ứng ester hóa - điều chế Ethyl Acetate","channel":"Kênh: Cô Bích Ngọc Hóa Học"}];
+        const EXPECTED_CHANNEL_VARIANTS = new Map([
+            ["mfO5ocybEj4", { legacy: "Kênh: ABC Chemistryt", canonical: "Kênh: ABC Chemistry", positions: [1] }],
+            ["JXdy_RB7DyE", { legacy: "Kênh: Smartschool-Trường học thông minh", canonical: "Kênh: Smartschool", positions: [20, 24] }]
+        ]);
+        const grid = document.getElementById("videoGrid");
+        const searchInput = document.getElementById("searchInput");
+        const resultCount = document.getElementById("resultCount");
+        const noResultMsg = document.getElementById("noResultMsg");
+        const isRepositoryCheck = new URLSearchParams(window.location.search).has("repository-check");
+
+        function normalizeText(value) {
+            return String(value ?? "").trim().replace(/\s+/g, " ");
+        }
+
+        function normalizeLegacyTitle(markup) {
+            const subscripts = { "0": "₀", "1": "₁", "2": "₂", "3": "₃", "4": "₄", "5": "₅", "6": "₆", "7": "₇", "8": "₈", "9": "₉" };
+            const superscripts = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹", "+": "⁺", "-": "⁻" };
+            return normalizeText(markup
+                .replace(/<sub>(.*?)<\/sub>/gi, (_, value) => [...value].map((character) => subscripts[character] || character).join(""))
+                .replace(/<sup>(.*?)<\/sup>/gi, (_, value) => [...value].map((character) => superscripts[character] || character).join(""))
+                .replace(/<[^>]*>/g, "")
+                .replace(/&amp;/g, "&"));
+        }
+
+        function reportParity(message, passed, details = {}) {
+            window.lop11RepositoryParity = { passed, message, ...details };
+            if (!isRepositoryCheck) return;
+            let status = document.getElementById("repositoryCheckStatus");
+            if (!status) {
+                status = document.createElement("p");
+                status.id = "repositoryCheckStatus";
+                status.setAttribute("role", passed ? "status" : "alert");
+                status.style.cssText = "padding:12px 30px;margin:0;background:#fff;color:#222";
+                document.querySelector(".top").append(status);
+            }
+            status.textContent = message;
+        }
+
+        function createLegacyCard(item) {
+            const card = document.createElement("div");
+            card.className = "card video-card";
+            card.dataset.experimentId = item.experiment.id;
+            card.dataset.youtubeId = item.video.youtubeId;
+            card.dataset.grade = String(item.experiment.grade);
+            card.dataset.badge = item.badge;
+
+            const thumb = document.createElement("div");
+            thumb.className = "thumb";
+            const image = document.createElement("img");
+            image.src = item.thumbnail;
+            image.alt = "Thumbnail: " + item.title;
+            image.loading = "lazy";
+            image.decoding = "async";
+
+            const play = document.createElement("a");
+            play.className = "play-btn";
+            play.href = item.ytLink;
+            play.target = "_blank";
+            play.rel = "noopener noreferrer";
+            play.setAttribute("aria-label", "Mở video: " + item.title);
+            play.textContent = "▶";
+            thumb.append(image, play);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+            const heading = document.createElement("h3");
+            heading.textContent = item.title;
+            const channel = document.createElement("p");
+            channel.className = "channel";
+            channel.textContent = item.video.channel;
+            content.append(heading, channel);
+            card.append(thumb, content);
+            return card;
+        }
+
+        function checkOrderedParity(occurrences) {
+            const errors = [];
+            const channelExceptions = [];
+            if (occurrences.length !== 37 || LEGACY_BASELINE.length !== 37) {
+                errors.push("count expected 37, got " + occurrences.length);
+            }
+
+            for (let index = 0; index < LEGACY_BASELINE.length; index += 1) {
+                const expected = LEGACY_BASELINE[index];
+                const actual = occurrences[index];
+                if (!actual) {
+                    errors.push("position " + (index + 1) + ": missing occurrence");
+                    continue;
+                }
+
+                const youtubeId = expected.youtubeId;
+                const variant = EXPECTED_CHANNEL_VARIANTS.get(youtubeId);
+                const allowedVariant = Boolean(variant && variant.positions.includes(index + 1) &&
+                    expected.channel === variant.legacy &&
+                    actual.video?.channel === variant.canonical);
+                const fields = [
+                    ["YouTube ID", actual.video?.youtubeId, youtubeId],
+                    ["title", normalizeText(actual.title), normalizeLegacyTitle(expected.titleMarkup)],
+                    ["thumbnail", actual.thumbnail, "https://img.youtube.com/vi/" + youtubeId + "/hqdefault.jpg"],
+                    ["YouTube URL", actual.ytLink, "https://www.youtube.com/watch?v=" + youtubeId],
+                    ["badge", actual.badge, "Lớp 11"],
+                    ["grade", actual.experiment?.grade, 11]
+                ];
+                for (const [field, actualValue, expectedValue] of fields) {
+                    if (actualValue !== expectedValue) {
+                        errors.push("position " + (index + 1) + " " + field + ": expected " + expectedValue + ", got " + actualValue);
+                    }
+                }
+
+                if (allowedVariant) {
+                    channelExceptions.push({ position: index + 1, youtubeId, legacy: expected.channel, canonical: actual.video.channel });
+                } else if (normalizeText(actual.video?.channel) !== normalizeText(expected.channel)) {
+                    errors.push("position " + (index + 1) + " channel: expected " + expected.channel + ", got " + actual.video?.channel);
+                }
+            }
+
+            for (const [youtubeId, variant] of EXPECTED_CHANNEL_VARIANTS) {
+                const positions = LEGACY_BASELINE.flatMap((item, index) => item.youtubeId === youtubeId ? [index + 1] : []);
+                if (positions.join(",") !== variant.positions.join(",")) {
+                    errors.push("channel exception positions for " + youtubeId + ": expected " + variant.positions + ", got " + positions);
+                }
+            }
+            return { errors, channelExceptions };
+        }
+
+        async function initializePage() {
+            renderLoading(grid, "Đang tải danh sách thí nghiệm…");
+            try {
+                await repository.load();
+                const occurrences = await repository.getPageOccurrences("lop11");
+                const parity = checkOrderedParity(occurrences);
+                if (parity.errors.length) {
+                    reportParity("LOP11 REPOSITORY PARITY FAIL: " + parity.errors.join("; "), false, parity);
+                    renderError(grid, "Không thể xác minh dữ liệu Lớp 11. Vui lòng tải lại trang.");
+                    return;
+                }
+
+                const cards = occurrences.map(createLegacyCard);
+                grid.replaceChildren(...cards);
+                const searchIndex = createSearchIndex(occurrences, cards);
+                const updateResults = () => {
+                    const count = filterSearchIndex(searchIndex, { query: searchInput.value });
+                    resultCount.textContent = count;
+                    noResultMsg.hidden = count !== 0;
+                };
+                updateResults();
+                reportParity("LOP11 REPOSITORY PARITY PASS: 37/37 vị trí; ID, title, thumbnail, URL, badge và grade khớp. Channel canonical khớp; 2 trường hợp metadata HTML legacy được ghi nhận.", true, parity);
+
+                searchInput.addEventListener("input", updateResults);
+                document.getElementById("clearSearchBtn").addEventListener("click", () => {
+                    searchInput.value = "";
+                    updateResults();
+                    searchInput.focus();
+                });
+            } catch (error) {
+                reportParity("LOP11 REPOSITORY LOAD FAIL: " + error.message, false);
+                renderError(grid, "Không thể tải danh sách thí nghiệm. Vui lòng thử lại sau.");
+            }
+        }
+
+        initializePage();
+    </script>
+    <script src="ui-enhance.js"></script>
+</body>
+</html>

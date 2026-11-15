@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kho tài liệu trực quan tổng hợp thí nghiệm Hóa học dành cho học sinh THPT theo từng khối lớp.">
+  <meta name="theme-color" content="#f5f8f8">
+  <title>Tổng hợp thí nghiệm | Thí nghiệm THPT</title>
+  <style>
+:root {
+  color-scheme: light;
+  --color-primary: #176a63;
+  --color-primary-strong: #10544f;
+  --color-primary-action: #176a63;
+  --color-primary-action-hover: #10544f;
+  --color-focus-ring: #10544f;
+  --color-primary-soft: #e8f3f1;
+  --color-accent: #d79a55;
+  --color-bg: #f5f8f8;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef4f3;
+  --color-text: #173136;
+  --color-muted: #526a6e;
+  --color-border: #dbe6e5;
+  --color-shadow: 0 14px 38px rgba(20, 54, 56, .09);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --content-width: 1160px;
+  --page-gutter: clamp(1.1rem, 4vw, 2.4rem);
+  --motion-fast: 160ms ease;
+  --motion-base: 240ms ease;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+}
+body.dark {
+  color-scheme: dark;
+  --color-bg: #101a1d;
+  --color-surface: #182629;
+  --color-surface-muted: #203235;
+  --color-text: #e5efed;
+  --color-muted: #a4b8b5;
+  --color-border: #34494a;
+  --color-primary-soft: #203d3a;
+  --color-primary: #76c9bd;
+  --color-primary-strong: #9addd3;
+  --color-primary-action: #176a63;
+  --color-primary-action-hover: #10544f;
+  --color-focus-ring: #e4a653;
+  --color-shadow: 0 16px 42px rgba(0, 0, 0, .25);
+}
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button, a, input { -webkit-tap-highlight-color: transparent; }
+button { color: inherit; }
+.site-container { width: min(var(--content-width), calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: fixed; z-index: 1000; top: .75rem; left: .75rem;
+  padding: .7rem 1rem; border-radius: var(--radius-sm);
+  background: var(--color-surface); color: var(--color-text);
+  transform: translateY(-160%); box-shadow: var(--color-shadow);
+}
+.skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 3px solid var(--color-focus-ring); outline-offset: 3px; }
+
+/* Navigation */
+.ui-site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(14px);
+}
+.ui-navbar {
+  width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+  min-height: 76px; margin-inline: auto; display: flex; align-items: center; gap: 1rem;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: .7rem; flex: 0 0 auto;
+  color: var(--color-text); font-size: 1rem; font-weight: 760; letter-spacing: -.02em;
+}
+.brand-mark {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border-radius: 13px; background: var(--color-primary-action); color: #fff;
+  font-size: .86rem; font-weight: 800; letter-spacing: -.04em;
+}
+.ui-navbar-links { display: flex; align-items: center; gap: .35rem; margin-left: auto; }
+.ui-navbar .nav-main {
+  display: inline-flex; align-items: center; gap: .3rem;
+  min-height: 42px; padding: .55rem .82rem; border-radius: 999px;
+  color: var(--color-muted); font-size: .92rem; font-weight: 650;
+  transition: color var(--motion-fast), background var(--motion-fast);
+}
+.ui-navbar .nav-main:hover,
+.ui-navbar .nav-main:focus-visible,
+.ui-navbar .nav-main.active-page {
+  color: var(--color-primary-strong); background: var(--color-primary-soft);
+}
+.ui-navbar .nav-main.active-page { font-weight: 750; }
+.ui-navbar-item { position: relative; display: inline-flex; align-items: center; }
+.ui-navbar .nav-arrow, .ui-navbar .theme-btn {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px solid transparent; border-radius: 50%;
+  background: transparent; cursor: pointer; transition: background var(--motion-fast), border-color var(--motion-fast);
+}
+.ui-navbar .nav-arrow:hover, .ui-navbar .theme-btn:hover {
+  background: var(--color-primary-soft); border-color: var(--color-border);
+}
+.ui-navbar .nav-dropdown {
+  position: absolute; top: calc(100% + .55rem); left: 0; z-index: 60;
+  min-width: 190px; padding: .45rem; border: 1px solid var(--color-border);
+  border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--color-shadow);
+}
+.ui-navbar .nav-dropdown[hidden] { display: none !important; }
+.ui-navbar .nav-dropdown a {
+  display: block; padding: .62rem .75rem; border-radius: 10px;
+  color: var(--color-text); font-weight: 600;
+}
+.ui-navbar .nav-dropdown a:hover, .ui-navbar .nav-dropdown a:focus-visible {
+  background: var(--color-primary-soft); color: var(--color-primary-strong);
+}
+.ui-new-label {
+  padding: .08rem .38rem; border-radius: 999px; background: #fff1dd;
+  color: #87551b; font-size: .62rem; font-weight: 800; letter-spacing: .06em;
+}
+.site-menu-toggle {
+  display: none; width: 42px; height: 42px; margin-left: auto;
+  border: 1px solid var(--color-border); border-radius: 12px;
+  background: var(--color-surface); cursor: pointer;
+}
+.site-menu-toggle span[aria-hidden] { font-size: 1.2rem; line-height: 1; }
+
+/* Hero */
+.hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(2.7rem, 5vw, 4.7rem) 0 clamp(2.6rem, 4.5vw, 4rem);
+  background: #e9f1ef;
+}
+body.dark .hero { background: #172629; }
+body.dark .hero::before { background: radial-gradient(circle, rgba(255,255,255,.08), rgba(255,255,255,0) 68%); }
+.hero::before {
+  content: ""; position: absolute; z-index: -1; width: 46rem; height: 46rem;
+  top: -32rem; right: -12rem; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.76), rgba(255,255,255,0) 68%);
+}
+.hero-layout { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr); gap: clamp(1.8rem, 4.5vw, 4.25rem); align-items: center; }
+.hero-copy { max-width: 680px; }
+.hero-kicker, .section-kicker {
+  display: flex; align-items: center; gap: .55rem; margin: 0 0 1rem;
+  color: var(--color-primary); font-size: .75rem; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.hero-kicker::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent);
+}
+.site-name { margin: 0 0 .55rem; color: var(--color-muted); font-size: .94rem; font-weight: 700; }
+.hero h1 {
+  max-width: 15ch; margin: 0; color: var(--color-text);
+  font-size: clamp(2.35rem, 4.8vw, 4rem); font-weight: 760;
+  letter-spacing: -.055em; line-height: 1.04;
+}
+.hero h1 span { color: var(--color-primary); }
+.hero-description { max-width: 57ch; margin: 1.25rem 0 0; color: var(--color-muted); font-size: clamp(1rem, 1.45vw, 1.13rem); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.65rem; }
+.button {
+  min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
+  gap: .55rem; padding: .7rem 1.1rem; border: 1px solid transparent;
+  border-radius: 999px; font-size: .92rem; font-weight: 720;
+  transition: transform var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.button:hover { transform: translateY(-2px); }
+.button-primary { background: var(--color-primary-action); color: #fff; box-shadow: 0 8px 20px rgba(23,106,99,.18); }
+.button-primary:hover { background: var(--color-primary-action-hover); }
+.button-secondary { background: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+.button-secondary:hover { background: var(--color-primary-soft); }
+.hero-search { max-width: 580px; margin-top: 2rem; }
+.search-label { display: block; margin-bottom: .5rem; color: var(--color-text); font-size: .83rem; font-weight: 700; }
+.search-control {
+  display: flex; align-items: center; gap: .55rem; min-height: 58px;
+  padding: .35rem .45rem .35rem .9rem; border: 1px solid #cbdad7;
+  border-radius: 16px; background: var(--color-surface);
+  box-shadow: 0 8px 22px rgba(24,64,65,.07);
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+body.dark .search-control { border-color: #496061; }
+.search-control:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 4px rgba(23,106,99,.12); }
+.search-icon { flex: 0 0 auto; color: var(--color-primary); font-size: 1.1rem; }
+.search-control input {
+  width: 100%; min-width: 0; min-height: 44px; border: 0; outline: 0;
+  background: transparent; color: var(--color-text); font-size: .94rem;
+}
+.search-control input::placeholder { color: #657a7c; opacity: 1; }
+body.dark .search-control input::placeholder { color: #a4b8b5; }
+.search-control input:disabled { cursor: wait; }
+.search-clear {
+  flex: 0 0 auto; min-width: 42px; min-height: 42px; border: 0;
+  border-radius: 12px; background: var(--color-surface-muted);
+  color: var(--color-muted); cursor: pointer; font-size: .84rem; font-weight: 700;
+}
+.search-clear[hidden] { display: none; }
+.search-hint { margin: .55rem 0 0; color: var(--color-muted); font-size: .78rem; }
+
+/* Decorative chemistry illustration, built locally with CSS */
+.chemistry-art {
+  position: relative; width: min(100%, 430px); aspect-ratio: 1 / .88;
+  justify-self: end; display: grid; place-items: center;
+}
+.chemistry-art::before, .chemistry-art::after {
+  content: ""; position: absolute; border: 1px solid rgba(23,106,99,.16); border-radius: 50%;
+}
+.chemistry-art::before { width: 84%; height: 84%; transform: rotate(-24deg) scaleY(.48); }
+.chemistry-art::after { width: 70%; height: 70%; transform: rotate(43deg) scaleY(.48); }
+.chemistry-orbit {
+  position: absolute; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--color-accent); box-shadow: 0 0 0 8px rgba(215,154,85,.14);
+}
+.orbit-one { top: 16%; left: 22%; }
+.orbit-two { top: 28%; right: 14%; width: 9px; height: 9px; background: var(--color-primary); box-shadow: 0 0 0 7px rgba(23,106,99,.12); }
+.orbit-three { bottom: 16%; left: 19%; width: 10px; height: 10px; background: #6d8caa; box-shadow: 0 0 0 7px rgba(109,140,170,.13); }
+.molecule {
+  position: relative; width: 190px; aspect-ratio: 1; display: grid; place-items: center;
+  border: 1px solid rgba(23,106,99,.17); border-radius: 50%;
+  background: rgba(255,255,255,.7); box-shadow: 0 24px 64px rgba(25,74,72,.12);
+}
+body.dark .molecule { background: rgba(24,38,41,.82); }
+.molecule::before, .molecule::after {
+  content: ""; position: absolute; width: 72px; height: 72px; border-radius: 50%;
+  border: 1px solid rgba(23,106,99,.22);
+}
+.molecule::before { top: -25px; right: 2px; }
+.molecule::after { bottom: 1px; left: -25px; }
+.molecule-core {
+  width: 88px; height: 88px; display: grid; place-items: center;
+  border-radius: 26px; background: var(--color-primary-action); color: #fff;
+  font-size: 1.5rem; font-weight: 800; letter-spacing: -.06em;
+  box-shadow: 0 12px 26px rgba(23,106,99,.24);
+}
+.molecule-note {
+  position: absolute; z-index: 1; padding: .45rem .72rem;
+  border: 1px solid var(--color-border); border-radius: 999px;
+  background: var(--color-surface); color: var(--color-text);
+  box-shadow: 0 8px 20px rgba(25,74,72,.08); font-size: .8rem; font-weight: 750;
+}
+.note-one { top: 20%; right: 4%; }
+.note-two { bottom: 18%; right: 5%; }
+
+/* Main sections */
+main { padding: clamp(3rem, 6vw, 5.3rem) 0; }
+.section { margin-bottom: clamp(3.6rem, 7vw, 6rem); }
+.section-heading { max-width: 700px; margin-bottom: 1.55rem; }
+.section-kicker { margin-bottom: .55rem; }
+.section-heading h2 { margin: 0; color: var(--color-text); font-size: clamp(1.8rem, 3.4vw, 2.65rem); line-height: 1.12; letter-spacing: -.04em; }
+.section-heading p { max-width: 62ch; margin: .75rem 0 0; color: var(--color-muted); }
+.grade-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.grade-card {
+  position: relative; min-width: 0; padding: clamp(1.2rem, 2.2vw, 1.7rem);
+  border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  background: var(--color-surface); box-shadow: 0 8px 24px rgba(23,49,54,.035);
+  transition: transform var(--motion-base), box-shadow var(--motion-base), border-color var(--motion-base);
+}
+.grade-card:hover, .grade-card:focus-within { transform: translateY(-4px); border-color: rgba(23,106,99,.35); box-shadow: var(--color-shadow); }
+.grade-card-top { display: flex; justify-content: space-between; align-items: center; }
+.grade-number { color: var(--color-primary); font-size: 2.65rem; font-weight: 800; letter-spacing: -.08em; line-height: 1; }
+.grade-symbol {
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border-radius: 14px; background: var(--color-primary-soft); color: var(--color-primary);
+  font-size: 1.15rem;
+}
+.grade-card h3 { margin: 1.1rem 0 .35rem; font-size: 1.16rem; letter-spacing: -.02em; }
+.grade-card > p { min-height: 3.2em; margin: 0; color: var(--color-muted); font-size: .9rem; }
+.grade-count-line { display: flex; align-items: baseline; gap: .42rem; margin: 1.1rem 0 1rem; }
+.grade-count { color: var(--color-primary); font-size: 1.25rem; font-weight: 800; }
+.grade-count-label { color: var(--color-muted); font-size: .79rem; }
+.grade-link { display: inline-flex; align-items: center; gap: .45rem; color: var(--color-primary-strong); font-size: .88rem; font-weight: 750; }
+.grade-link span { transition: transform var(--motion-fast); }
+.grade-link:hover span { transform: translateX(4px); }
+
+.discovery-section { padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface-muted); }
+.discovery-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1.2rem; }
+.discovery-heading .section-heading { margin-bottom: 0; }
+.discovery-count { flex: 0 0 auto; color: var(--color-muted); font-size: .82rem; }
+.experiment-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.ui-experiment-card {
+  min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  background: var(--color-surface); box-shadow: 0 6px 18px rgba(23,49,54,.045);
+  transition: transform var(--motion-base), box-shadow var(--motion-base), border-color var(--motion-base);
+}
+.ui-experiment-card:hover, .ui-experiment-card:focus-within {
+  transform: translateY(-3px); border-color: rgba(23,106,99,.32); box-shadow: var(--color-shadow);
+}
+.ui-experiment-card-media { display: block; overflow: hidden; aspect-ratio: 16 / 9; background: var(--color-surface-muted); }
+.ui-experiment-card-media img { display: block; width: 100%; height: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.ui-experiment-card-content { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 1rem 1.05rem 1.05rem; }
+.ui-experiment-card-badge {
+  display: inline-flex; align-items: center; min-height: 25px; padding: .18rem .58rem;
+  border-radius: 999px; background: var(--color-primary-soft); color: var(--color-primary-strong);
+  font-size: .72rem; font-weight: 780;
+}
+.ui-experiment-card-title { margin: .65rem 0 1rem; color: var(--color-text); font-size: 1rem; line-height: 1.45; overflow-wrap: anywhere; }
+.ui-experiment-card-action {
+  display: inline-flex; align-items: center; gap: .4rem; margin-top: auto;
+  color: var(--color-primary); font-size: .86rem; font-weight: 760;
+}
+.ui-experiment-card-action::after { content: "↗"; font-size: .9em; }
+.ui-experiment-card-action:hover { color: var(--color-primary-strong); }
+.search-status { min-height: 1.4em; margin: 0 0 1rem; color: var(--color-muted); font-size: .86rem; }
+.ui-state { margin: 0; padding: 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-muted); background: var(--color-surface); }
+.ui-state-error { color: #a63232; }
+body.dark .ui-state-error { color: #ffabab; }
+
+.site-footer { padding: 1.4rem var(--page-gutter) 1.8rem; border-top: 1px solid var(--color-border); background: var(--color-surface); }
+.site-footer .ui-site-footer { width: min(var(--content-width), 100%); margin-inline: auto; color: var(--color-muted); font-size: .85rem; }
+
+/* Tablet */
+@media (max-width: 980px) {
+  .hero-layout { grid-template-columns: minmax(0, 1.05fr) minmax(250px, .8fr); gap: 2rem; }
+  .molecule { width: 160px; }
+  .experiment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Mobile navigation and tablet layout */
+@media (max-width: 760px) {
+  .ui-navbar { min-height: 68px; flex-wrap: wrap; padding-block: .65rem; }
+  .site-menu-toggle { display: grid; place-items: center; }
+  .ui-navbar-links { display: none; width: 100%; margin: 0; align-items: stretch; flex-direction: column; gap: .25rem; padding: .6rem 0 .2rem; }
+  .ui-navbar[data-mobile-open="true"] .ui-navbar-links { display: flex; }
+  .ui-navbar-links > .nav-main, .ui-navbar-item > .nav-main { width: 100%; justify-content: flex-start; }
+  .ui-navbar-item { width: 100%; display: grid; grid-template-columns: 1fr auto; }
+  .ui-navbar-item .nav-dropdown { position: static; grid-column: 1 / -1; width: 100%; margin: .25rem 0; box-shadow: none; }
+  .ui-navbar-item .nav-arrow { justify-self: end; }
+  .hero-layout { grid-template-columns: 1fr; }
+  .hero-copy { max-width: 720px; }
+  .chemistry-art { width: min(100%, 380px); justify-self: center; margin-top: .25rem; }
+  .grade-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  :root { --page-gutter: 1rem; }
+  .hero { padding-block: 2.4rem 2.5rem; }
+  .hero h1 { max-width: 15ch; font-size: clamp(2.05rem, 9.4vw, 2.9rem); }
+  .hero-actions { display: grid; grid-template-columns: 1fr; }
+  .hero-actions .button { width: 100%; }
+  .search-control { min-height: 54px; }
+  main { padding-top: 2.7rem; }
+  .grade-grid, .experiment-grid { grid-template-columns: 1fr; }
+  .grade-card > p { min-height: 0; }
+  .discovery-heading { align-items: flex-start; flex-direction: column; gap: .3rem; }
+  .discovery-section { padding: 1.1rem; border-radius: 22px; }
+  .chemistry-art { width: min(100%, 200px); aspect-ratio: 1.2 / 1; margin-top: 0; }
+  .molecule { width: 112px; }
+  .molecule-core { width: 64px; height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .button:hover, .grade-card:hover, .ui-experiment-card:hover, .ui-experiment-card:focus-within { transform: none; }
+}
+
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Bỏ qua điều hướng</a>
+  <div id="navbarRoot"></div>
+
+  <header class="hero">
+    <div class="site-container hero-layout">
+      <div class="hero-copy">
+        <p class="hero-kicker">Kho tài liệu Hóa học THPT</p>
+        <p class="site-name">Tổng hợp thí nghiệm</p>
+        <h1>Khám phá Hóa học qua những <span>thí nghiệm trực quan</span></h1>
+        <p class="hero-description">Kho tài liệu trực quan cho học sinh THPT theo từng khối lớp.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="lop10.html">Khám phá Lớp 10 <span aria-hidden="true">→</span></a>
+          <a class="button button-secondary" href="toanbo.html">Xem toàn bộ thí nghiệm</a>
+        </div>
+
+        <form class="hero-search" id="searchForm" role="search">
+          <label class="search-label" for="searchInput">Tìm nhanh trong kho thí nghiệm</label>
+          <div class="search-control">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input type="text" id="searchInput" placeholder="Tên thí nghiệm, từ khóa hoặc lớp..." autocomplete="off" disabled aria-busy="true">
+            <button class="search-clear" id="searchClear" type="button" aria-label="Xóa từ khóa" hidden>Xóa</button>
+          </div>
+          <p class="search-hint">Ví dụ: phản ứng oxi hóa, axit, Lớp 11</p>
+        </form>
+      </div>
+
+      <div class="chemistry-art" aria-hidden="true">
+        <span class="chemistry-orbit orbit-one"></span>
+        <span class="chemistry-orbit orbit-two"></span>
+        <span class="chemistry-orbit orbit-three"></span>
+        <div class="molecule"><span class="molecule-core">H₂O</span></div>
+        <span class="molecule-note note-one">NaCl</span>
+        <span class="molecule-note note-two">Cu²⁺</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-container" id="main-content">
+    <section class="section" id="grades" aria-labelledby="gradesTitle">
+      <div class="section-heading">
+        <p class="section-kicker">Học theo lộ trình</p>
+        <h2 id="gradesTitle">Chọn khối lớp</h2>
+        <p>Đi thẳng đến bộ thí nghiệm phù hợp với nội dung học tập của bạn.</p>
+      </div>
+      <div class="grade-grid">
+        <article class="grade-card">
+          <div class="grade-card-top"><span class="grade-number">10</span><span class="grade-symbol" aria-hidden="true">◉</span></div>
+          <h3>Hóa học 10</h3>
+          <p>Nội dung thí nghiệm và mô phỏng theo chương trình lớp 10.</p>
+          <div class="grade-count-line"><span class="grade-count" data-grade-count="10">—</span><span class="grade-count-label">video trong danh sách</span></div>
+          <a class="grade-link" href="lop10.html">Khám phá lớp 10 <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="grade-card">
+          <div class="grade-card-top"><span class="grade-number">11</span><span class="grade-symbol" aria-hidden="true">◉</span></div>
+          <h3>Hóa học 11</h3>
+          <p>Tổng hợp video thí nghiệm trọng tâm của chương trình lớp 11.</p>
+          <div class="grade-count-line"><span class="grade-count" data-grade-count="11">—</span><span class="grade-count-label">video trong danh sách</span></div>
+          <a class="grade-link" href="lop11.html">Khám phá lớp 11 <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="grade-card">
+          <div class="grade-card-top"><span class="grade-number">12</span><span class="grade-symbol" aria-hidden="true">◉</span></div>
+          <h3>Hóa học 12</h3>
+          <p>Tài liệu trực quan phục vụ ôn tập và học tập lớp 12.</p>
+          <div class="grade-count-line"><span class="grade-count" data-grade-count="12">—</span><span class="grade-count-label">video trong danh sách</span></div>
+          <a class="grade-link" href="lop12.html">Khám phá lớp 12 <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section discovery-section" id="discovery" aria-labelledby="discoveryTitle">
+      <div class="discovery-heading">
+        <div class="section-heading">
+          <p class="section-kicker">Khám phá</p>
+          <h2 id="discoveryTitle">Thí nghiệm được chọn</h2>
+          <p id="discoveryDescription">Một vài video được chọn từ kho thí nghiệm theo từng khối lớp.</p>
+        </div>
+        <span class="discovery-count" id="discoveryCount">Đang tải…</span>
+      </div>
+      <p class="search-status" id="searchStatus" role="status" aria-live="polite">Đang tải danh sách thí nghiệm…</p>
+      <div class="experiment-grid" id="experimentGrid" aria-busy="true">
+        <p class="ui-state ui-state-loading" role="status">Đang tải danh sách thí nghiệm…</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="site-footer" id="footerRoot"></div>
+
+  <script type="module">
+import {
+  createNavbar,
+  createExperimentCard,
+  renderLoading,
+  renderEmpty,
+  renderError,
+  createFooter
+} from "./components/ui.js";
+import * as repository from "./experiment-repository.js";
+
+const navbarRoot = document.getElementById("navbarRoot");
+const navbar = createNavbar({
+  brandText: "Thí nghiệm THPT",
+  brandHref: "index.html",
+  comingSoon: true,
+  periodicTable: true,
+  themeToggle: true,
+  onThemeToggle: () => document.body.classList.toggle("dark")
+});
+const nav = navbar.querySelector("nav");
+const brand = navbar.querySelector(".brand");
+const navLinks = navbar.querySelector(".ui-navbar-links");
+const chemistryLink = navbar.querySelector(".ui-navbar-item > .nav-main");
+
+brand.textContent = "";
+const brandMark = document.createElement("span");
+brandMark.className = "brand-mark";
+brandMark.setAttribute("aria-hidden", "true");
+brandMark.textContent = "H₂";
+const brandName = document.createElement("span");
+brandName.textContent = "Thí nghiệm THPT";
+brand.append(brandMark, brandName);
+
+const homeLink = document.createElement("a");
+homeLink.className = "nav-main active-page";
+homeLink.href = "index.html";
+homeLink.textContent = "Trang chủ";
+homeLink.setAttribute("aria-current", "page");
+navLinks.prepend(homeLink);
+
+nav.classList.add("site-nav");
+navLinks.id = "primaryNavigation";
+const mobileToggle = document.createElement("button");
+mobileToggle.className = "site-menu-toggle";
+mobileToggle.type = "button";
+mobileToggle.setAttribute("aria-expanded", "false");
+mobileToggle.setAttribute("aria-controls", "primaryNavigation");
+mobileToggle.setAttribute("aria-label", "Mở điều hướng");
+const menuGlyph = document.createElement("span");
+menuGlyph.setAttribute("aria-hidden", "true");
+menuGlyph.textContent = "☰";
+mobileToggle.append(menuGlyph);
+brand.after(mobileToggle);
+
+const closeMobileMenu = ({ restoreFocus = false } = {}) => {
+  nav.dataset.mobileOpen = "false";
+  mobileToggle.setAttribute("aria-expanded", "false");
+  mobileToggle.setAttribute("aria-label", "Mở điều hướng");
+  if (restoreFocus) mobileToggle.focus();
+};
+mobileToggle.addEventListener("click", () => {
+  const isOpen = nav.dataset.mobileOpen !== "true";
+  nav.dataset.mobileOpen = String(isOpen);
+  mobileToggle.setAttribute("aria-expanded", String(isOpen));
+  mobileToggle.setAttribute("aria-label", isOpen ? "Đóng điều hướng" : "Mở điều hướng");
+  if (isOpen) homeLink.focus();
+});
+navLinks.addEventListener("click", (event) => {
+  if (event.target.closest("a")) closeMobileMenu();
+});
+document.addEventListener("click", (event) => {
+  if (!nav.contains(event.target)) closeMobileMenu();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && nav.dataset.mobileOpen === "true") {
+    closeMobileMenu({ restoreFocus: true });
+  }
+});
+navbarRoot.append(navbar);
+
+const gradeMenu = navbar.querySelector(".nav-dropdown");
+const gradeMenuToggle = navbar.querySelector(".nav-arrow");
+gradeMenu.addEventListener("keydown", (event) => {
+  const items = [...gradeMenu.querySelectorAll('[role="menuitem"]')];
+  if (!items.length) return;
+  const currentIndex = items.indexOf(document.activeElement);
+  let nextIndex;
+
+  if (event.key === "ArrowDown") nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % items.length;
+  else if (event.key === "ArrowUp") nextIndex = currentIndex < 0 ? items.length - 1 : (currentIndex - 1 + items.length) % items.length;
+  else if (event.key === "Home") nextIndex = 0;
+  else if (event.key === "End") nextIndex = items.length - 1;
+  else return;
+
+  event.preventDefault();
+  items[nextIndex].focus();
+});
+gradeMenu.addEventListener("focusout", (event) => {
+  if (
+    !gradeMenu.contains(event.relatedTarget) &&
+    event.relatedTarget !== gradeMenuToggle &&
+    gradeMenuToggle.getAttribute("aria-expanded") === "true"
+  ) {
+    gradeMenuToggle.click();
+  }
+});
+
+const themeButton = navbar.querySelector(".theme-btn");
+if (themeButton) {
+  themeButton.setAttribute("aria-pressed", "false");
+  themeButton.addEventListener("click", () => {
+    themeButton.setAttribute("aria-pressed", String(document.body.classList.contains("dark")));
+  });
+}
+
+const gradeCountNodes = new Map(
+  [...document.querySelectorAll("[data-grade-count]")].map((node) => [Number(node.dataset.gradeCount), node])
+);
+const experimentGrid = document.getElementById("experimentGrid");
+const searchInput = document.getElementById("searchInput");
+const searchClear = document.getElementById("searchClear");
+const searchStatus = document.getElementById("searchStatus");
+const discoveryTitle = document.getElementById("discoveryTitle");
+const discoveryDescription = document.getElementById("discoveryDescription");
+const discoveryCount = document.getElementById("discoveryCount");
+const searchForm = document.getElementById("searchForm");
+const discoverySection = document.getElementById("discovery");
+
+let allExperiments = [];
+let featuredExperiments = [];
+
+function renderExperiments(items) {
+  const fragment = document.createDocumentFragment();
+  for (const item of items) {
+    const card = createExperimentCard(item);
+    const image = card.querySelector("img");
+    if (image) {
+      image.width = 640;
+      image.height = 360;
+    }
+    fragment.append(card);
+  }
+  experimentGrid.replaceChildren(fragment);
+  experimentGrid.setAttribute("aria-busy", "false");
+}
+
+function removeVietnameseTones(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase();
+}
+
+function updateDiscovery(items, query = "") {
+  const cleanQuery = query.trim();
+  if (!cleanQuery) {
+    discoveryTitle.textContent = "Thí nghiệm được chọn";
+    discoveryDescription.textContent = "Một vài video được chọn từ kho thí nghiệm theo từng khối lớp.";
+    discoveryCount.textContent = `${items.length} video gợi ý`;
+    searchStatus.textContent = "Tìm kiếm trong danh sách video theo tên, từ khóa hoặc lớp.";
+    renderExperiments(items);
+    return;
+  }
+
+  discoveryTitle.textContent = "Kết quả tìm kiếm";
+  discoveryDescription.textContent = "Các thí nghiệm phù hợp với từ khóa bạn nhập.";
+  discoveryCount.textContent = `${items.length} kết quả`;
+  searchStatus.textContent = items.length
+    ? `Tìm thấy ${items.length} thí nghiệm. Hiển thị tối đa 12 kết quả.`
+    : "Không tìm thấy nội dung phù hợp. Hãy thử từ khóa khác.";
+
+  if (items.length) renderExperiments(items.slice(0, 12));
+  else {
+    renderEmpty(experimentGrid, "Không tìm thấy nội dung phù hợp. Hãy thử từ khóa khác.");
+    experimentGrid.setAttribute("aria-busy", "false");
+  }
+}
+
+function runSearch() {
+  const query = removeVietnameseTones(searchInput.value.trim());
+  searchClear.hidden = !searchInput.value.trim();
+  if (!query) {
+    updateDiscovery(featuredExperiments);
+    return;
+  }
+
+  const matches = allExperiments.filter((item) => {
+    const searchable = removeVietnameseTones(
+      `${item.title} ${item.keywords.join(" ")} ${item.badge} Hóa học lớp ${item.grade} ${item.grade}`
+    );
+    return searchable.includes(query);
+  });
+  updateDiscovery(matches, searchInput.value);
+}
+
+function saveSearch(value) {
+  if (!value.trim()) return;
+  try {
+    const stored = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+    const history = Array.isArray(stored) ? stored : [];
+    history.unshift(value);
+    localStorage.setItem("searchHistory", JSON.stringify(history.slice(0, 5)));
+  } catch {
+    // Search remains available when browser storage is disabled.
+  }
+}
+
+searchInput.addEventListener("input", () => {
+  searchClear.hidden = !searchInput.value.trim();
+  saveSearch(searchInput.value);
+  runSearch();
+});
+searchClear.addEventListener("click", () => {
+  searchInput.value = "";
+  runSearch();
+  searchInput.focus();
+});
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  runSearch();
+  discoverySection.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+});
+
+renderLoading(experimentGrid, "Đang tải danh sách thí nghiệm…");
+experimentGrid.setAttribute("aria-busy", "true");
+
+try {
+  await repository.load();
+  const [experiments, grade10, grade11, grade12] = await Promise.all([
+    repository.getAll(),
+    repository.getPageOccurrences("lop10"),
+    repository.getPageOccurrences("lop11"),
+    repository.getPageOccurrences("lop12")
+  ]);
+
+  allExperiments = experiments.map((experiment) => ({
+    ...experiment,
+    ytLink: repository.buildYouTubeUrl(experiment.youtubeId),
+    thumbnail: repository.buildThumbnailUrl(experiment.youtubeId),
+    badge: repository.getGradeBadge(experiment.grade)
+  }));
+
+  for (const [grade, occurrences] of [[10, grade10], [11, grade11], [12, grade12]]) {
+    const countNode = gradeCountNodes.get(grade);
+    if (countNode) countNode.textContent = String(occurrences.length);
+  }
+
+  featuredExperiments = [...grade10.slice(0, 2), ...grade11.slice(0, 2), ...grade12.slice(0, 2)];
+  searchInput.disabled = false;
+  searchInput.removeAttribute("aria-busy");
+  updateDiscovery(featuredExperiments);
+} catch (error) {
+  for (const countNode of gradeCountNodes.values()) countNode.textContent = "—";
+  renderError(experimentGrid, "Không thể tải danh sách thí nghiệm. Vui lòng tải lại trang.");
+  experimentGrid.setAttribute("aria-busy", "false");
+  searchStatus.textContent = "Không thể tải dữ liệu để tìm kiếm.";
+  console.error("Homepage experiment data failed to load.", error);
+}
+
+document.getElementById("footerRoot").append(createFooter());
+
+  </script>
+    <!-- Optional development diagnostic: add ?repository-check=1 to exercise the new repository. -->
+    <script type="module">
+        const repositoryCheckEnabled =
+            new URLSearchParams(window.location.search).get("repository-check") === "1";
+
+        document.documentElement.dataset.experimentRepositoryStatus =
+            repositoryCheckEnabled ? "loading" : "idle";
+
+        if (repositoryCheckEnabled) {
+            const statusNode = document.createElement("p");
+            statusNode.id = "experimentRepositoryStatus";
+            statusNode.className = "sr-only";
+            statusNode.setAttribute("role", "status");
+            statusNode.textContent = "Đang kiểm tra Repository…";
+            document.body.append(statusNode);
+
+            const assertCheck = (condition, label) => {
+                if (!condition) throw new Error(`Repository integration check failed: ${label}`);
+            };
+
+            const positionsFor = (items, youtubeId) =>
+                items.flatMap((item, index) =>
+                    item.experiment.youtubeId === youtubeId ? [index + 1] : []
+                );
+
+            try {
+                const repository = await import("./experiment-repository.js");
+                const data = await repository.load();
+
+                const [
+                    all,
+                    grade10,
+                    grade11,
+                    grade12,
+                    lop10,
+                    lop11,
+                    lop12,
+                    toanbo
+                ] = await Promise.all([
+                    repository.getAll(),
+                    repository.getByGrade(10),
+                    repository.getByGrade(11),
+                    repository.getByGrade(12),
+                    repository.getPageOccurrences("lop10"),
+                    repository.getPageOccurrences("lop11"),
+                    repository.getPageOccurrences("lop12"),
+                    repository.getPageOccurrences("toanbo")
+                ]);
+
+                assertCheck(data.videos.length === 81, "81 video assets");
+                assertCheck(all.length === 83, "83 experiments");
+                assertCheck(grade10.length === 23, "grade 10 experiment records");
+                assertCheck(grade11.length === 33, "grade 11 experiment records");
+                assertCheck(grade12.length === 27, "grade 12 experiment records");
+                assertCheck(lop10.length === 23, "lop10 page occurrences");
+                assertCheck(lop11.length === 37, "lop11 page occurrences");
+                assertCheck(lop12.length === 27, "lop12 page occurrences");
+                assertCheck(toanbo.length === 87, "toanbo page occurrences");
+
+                for (const item of [lop10, lop11, lop12, toanbo].flat()) {
+                    assertCheck(
+                        item.ytLink === `https://www.youtube.com/watch?v=${item.video.youtubeId}`,
+                        `YouTube URL for ${item.video.youtubeId}`
+                    );
+                    assertCheck(
+                        item.thumbnail === `https://img.youtube.com/vi/${item.video.youtubeId}/hqdefault.jpg`,
+                        `thumbnail URL for ${item.video.youtubeId}`
+                    );
+                    assertCheck(
+                        item.badge === `Lớp ${item.experiment.grade}`,
+                        `grade badge for ${item.experiment.id}`
+                    );
+                    assertCheck(typeof item.title === "string" && item.title.length > 0, "resolved title");
+                }
+
+                assertCheck(
+                    JSON.stringify(positionsFor(lop10, "cRMZ0HH6R0Q")) === JSON.stringify([8]),
+                    "cRMZ0HH6R0Q at lop10 #8"
+                );
+                assertCheck(
+                    JSON.stringify(positionsFor(lop11, "cRMZ0HH6R0Q")) === JSON.stringify([4]),
+                    "cRMZ0HH6R0Q at lop11 #4"
+                );
+                assertCheck(
+                    lop10[0].video.youtubeId === "Wuo8SachZYE" &&
+                    lop10[0].experiment.grade === 10 &&
+                    lop11[15].video.youtubeId === "Wuo8SachZYE" &&
+                    lop11[15].experiment.grade === 11 &&
+                    lop11[15].title === "Thí nghiệm tinh chế muối",
+                    "Wuo8SachZYE Grade 10 and HTML-only Grade 11 entries"
+                );
+
+                const expectedDuplicates = {
+                    "lUbu8zZ7RSs": [19, 23],
+                    "JXdy_RB7DyE": [20, 24],
+                    "mk9G-R-exkI": [21, 25],
+                    "0-Is2lVfuls": [22, 26]
+                };
+                for (const [youtubeId, expectedPositions] of Object.entries(expectedDuplicates)) {
+                    assertCheck(
+                        JSON.stringify(positionsFor(lop11, youtubeId)) === JSON.stringify(expectedPositions),
+                        `duplicate occurrences for ${youtubeId}`
+                    );
+                }
+
+                const zeroIs = lop11.filter((item) => item.video.youtubeId === "0-Is2lVfuls");
+                assertCheck(
+                    zeroIs.length === 2 &&
+                    zeroIs[0].title !== zeroIs[1].title &&
+                    zeroIs.every((item) => typeof item.titleOverride === "string"),
+                    "both 0-Is2lVfuls title variants and overrides"
+                );
+
+                document.documentElement.dataset.experimentRepositoryStatus = "loaded";
+                statusNode.textContent = "Repository PASS: 81 video, 83 experiment, occurrence 23/37/27/87.";
+                console.info("Experiment repository integration PASS", {
+                    videos: data.videos.length,
+                    experiments: all.length,
+                    lop10: lop10.length,
+                    lop11: lop11.length,
+                    lop12: lop12.length,
+                    toanbo: toanbo.length
+                });
+            } catch (error) {
+                document.documentElement.dataset.experimentRepositoryStatus = "error";
+                statusNode.textContent = "Repository ERROR: xem console để biết chi tiết.";
+                console.error("Experiment repository integration FAIL", error);
+            }
+        }
+    </script>
+    
+</body>
+</html>

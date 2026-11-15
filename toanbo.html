@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tổng hợp thí nghiệm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body{
+            margin:0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:#f5f6f8;
+            color:#222;
+        }
+
+        /* ===== HEADER ===== */
+        .top{
+            padding:20px 30px;
+            background:white;
+            border-bottom:1px solid #ddd;
+        }
+
+        .top h1{
+            margin:0;
+            font-size:28px;
+        }
+
+        .tags{
+            margin-top:10px;
+        }
+
+        .tag{
+            display:inline-block;
+            border:1px solid #7a2bc2;
+            color:#7a2bc2;
+            padding:6px 12px;
+            border-radius:6px;
+            margin-right:8px;
+            font-size:14px;
+        }
+
+        /* ===== GRID ===== */
+        .container{
+            padding:30px;
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap:25px;
+        }
+
+        /* ===== CARD ===== */
+        .card{
+            background:white;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+        }
+
+        .thumb{
+            position:relative;
+            height:150px;
+            background:#ddd;
+        }
+
+        .thumb img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .new{
+            position:absolute;
+            top:10px;
+            right:-30px;
+            background:#e91e63;
+            color:white;
+            padding:5px 40px;
+            transform:rotate(45deg);
+            font-size:12px;
+            font-weight:bold;
+        }
+
+        .card-content{
+            padding:15px;
+        }
+
+        .card-content h3{
+            margin:0 0 10px;
+            font-size:18px;
+        }
+
+        .icons{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        .icon{
+            width:28px;
+            height:28px;
+            border-radius:6px;
+            background:#eee;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:14px;
+        }
+		.thumb{
+    position:relative;
+    height:150px;
+    background:#ddd;
+}
+
+.thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.play-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:rgba(0,0,0,0.6);
+    color:white;
+    font-size:30px;
+    padding:12px 18px;
+    border-radius:50%;
+    text-decoration:none;
+}
+.thumb iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+.search-box{
+    margin-top:15px;
+}
+
+.search-box input{
+    width:100%;
+    max-width:420px;
+    padding:10px 14px;
+    font-size:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:#7a2bc2;
+}
+.top-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.back-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#7a2bc2;
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#5a1e96;
+    transform:scale(1.05);
+}
+.channel{
+    margin:0;
+    font-size:14px;
+    color:#666;
+}
+    </style>
+    <link rel="stylesheet" href="ui-system.css">
+    <link rel="stylesheet" href="search-filter.css">
+</head>
+
+
+
+
+
+
+
+<body>
+
+    <!-- HEADER -->
+    <div class="top">
+    <div class="top-bar">
+        <h1><span id="resultCount" aria-live="polite" aria-atomic="true">0</span> Kết quả</h1>
+
+        <!-- Nút trở về -->
+        <a href="thinghiem.html" class="back-btn" title="Quay lại">
+            ⬅
+        </a>
+    </div>
+
+    <!-- Ô tìm kiếm -->
+    <div class="search-box search-controls">
+        <label class="visually-hidden" for="searchInput">Tìm theo tiêu đề, kênh YouTube hoặc từ khóa</label>
+        <input type="text" id="searchInput" placeholder="🔍 Tìm thí nghiệm, video, nội dung...">
+        <label class="visually-hidden" for="gradeFilter">Lọc theo lớp</label>
+        <select id="gradeFilter">
+            <option value="all">Tất cả lớp</option>
+            <option value="10">Lớp 10</option>
+            <option value="11">Lớp 11</option>
+            <option value="12">Lớp 12</option>
+        </select>
+        <button type="button" id="clearSearchBtn">Xóa tìm kiếm</button>
+        <button type="button" id="resetFiltersBtn">Xóa tất cả</button>
+    </div>
+</div>
+
+
+    </div>
+<div class="card">
+   
+</div>
+
+    <!-- CONTENT -->
+    <div class="container">
+        <p id="noResultMsg" class="search-no-results" role="status" aria-live="polite" hidden>Không tìm thấy video thí nghiệm nào phù hợp.</p>
+        <div class="grid">
+		
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+	<div class="grid" id="videoGrid">
+            
+
+            
+            
+	
+			
+	
+		
+	
+		
+			
+			
+	
+	
+		
+		
+	
+		
+	
+	
+		
+			
+	
+	
+		
+			
+				
+	
+	
+	
+		
+			
+			
+				
+				
+				
+					
+           </div> 
+           <div class="grid" id="videoGrid">
+            
+
+            
+            
+	
+			
+	
+		
+	
+		
+			
+			
+	
+	
+		
+		
+		
+		
+	
+	
+		
+			
+				
+    <script src="ui-enhance.js"></script>
+<script type="module">
+        import * as repository from "./experiment-repository.js";
+        import { renderLoading, renderError } from "./components/ui.js";
+        import { createSearchIndex, filterSearchIndex } from "./search-filter.js";
+
+        // Ordered fingerprints preserve the legacy 87-card baseline without duplicating its dataset.
+        const LEGACY_PARITY = {"youtubeIds":"c2f69b7a:a1847340","titles":"6c0858e8:bf8b10c4","thumbnails":"682ac68b:a79533a7","urls":"e21b3c94:2607e970","channels":"c7bd0033:d65082df","badges":"bd353322:ae0860a6","grades":"b0a7fa25:c3922081"};
+        const CHANNEL_EXCEPTIONS = [
+            { position: 28, youtubeId: "mfO5ocybEj4", legacy: "Kênh: ABC Chemistryt", canonical: "Kênh: ABC Chemistry" },
+            { position: 47, youtubeId: "JXdy_RB7DyE", legacy: "Kênh: Smartschool-Trường học thông minh", canonical: "Kênh: Smartschool" },
+            { position: 51, youtubeId: "JXdy_RB7DyE", legacy: "Kênh: Smartschool-Trường học thông minh", canonical: "Kênh: Smartschool" }
+        ];
+        const grids = [...document.querySelectorAll(".container .grid")];
+        const searchInput = document.getElementById("searchInput");
+        const gradeFilter = document.getElementById("gradeFilter");
+        const resultCount = document.getElementById("resultCount");
+        const noResultMsg = document.getElementById("noResultMsg");
+        const isRepositoryCheck = new URLSearchParams(window.location.search).has("repository-check");
+
+        function normalizeText(value) {
+            return String(value ?? "").trim().replace(/\s+/g, " ");
+        }
+
+        function fingerprint(values) {
+            const serialized = JSON.stringify(values);
+            let first = 2166136261;
+            let second = 5381;
+            for (let index = 0; index < serialized.length; index += 1) {
+                const character = serialized.charCodeAt(index);
+                first = Math.imul(first ^ character, 16777619) >>> 0;
+                second = (Math.imul(second, 33) ^ character) >>> 0;
+            }
+            return first.toString(16).padStart(8, "0") + ":" + second.toString(16).padStart(8, "0");
+        }
+
+        function reportParity(message, passed, details = {}) {
+            window.toanboRepositoryParity = { passed, message, ...details };
+            if (!isRepositoryCheck) return;
+            let status = document.getElementById("repositoryCheckStatus");
+            if (!status) {
+                status = document.createElement("p");
+                status.id = "repositoryCheckStatus";
+                status.setAttribute("role", passed ? "status" : "alert");
+                status.style.cssText = "padding:12px 30px;margin:0;background:#fff;color:#222";
+                document.querySelector(".top").append(status);
+            }
+            status.textContent = message;
+        }
+
+        function checkParity(occurrences) {
+            const values = {
+                youtubeIds: occurrences.map((item) => item.video.youtubeId),
+                titles: occurrences.map((item) => normalizeText(item.title)),
+                thumbnails: occurrences.map((item) => item.thumbnail),
+                urls: occurrences.map((item) => item.ytLink),
+                channels: occurrences.map((item) => normalizeText(item.video.channel)),
+                badges: occurrences.map((item) => item.badge),
+                grades: occurrences.map((item) => item.experiment.grade)
+            };
+            const errors = [];
+            if (occurrences.length !== 87) errors.push("count expected 87, got " + occurrences.length);
+            for (const [field, actualValues] of Object.entries(values)) {
+                if (fingerprint(actualValues) !== LEGACY_PARITY[field]) errors.push(field + " ordered parity mismatch");
+            }
+            const gradeCounts = {
+                12: values.grades.filter((grade) => grade === 12).length,
+                11: values.grades.filter((grade) => grade === 11).length,
+                10: values.grades.filter((grade) => grade === 10).length
+            };
+            if (gradeCounts[12] !== 27 || gradeCounts[11] !== 37 || gradeCounts[10] !== 23) {
+                errors.push("grade distribution mismatch");
+            }
+            const channelExceptions = CHANNEL_EXCEPTIONS.map((entry) => {
+                const item = occurrences[entry.position - 1];
+                return item && item.video.youtubeId === entry.youtubeId &&
+                    normalizeText(item.video.channel) === entry.canonical;
+            });
+            if (channelExceptions.some((matches) => !matches)) errors.push("expected canonical channel exception mismatch");
+
+            const protectedIds = ["Wuo8SachZYE", "lUbu8zZ7RSs", "JXdy_RB7DyE", "mk9G-R-exkI", "0-Is2lVfuls", "cRMZ0HH6R0Q"];
+            const counts = Object.fromEntries(protectedIds.map((id) => [
+                id,
+                values.youtubeIds.filter((youtubeId) => youtubeId === id).length
+            ]));
+            if (counts.Wuo8SachZYE !== 2 || values.youtubeIds[42] !== "Wuo8SachZYE" || values.youtubeIds[64] !== "Wuo8SachZYE" || counts.lUbu8zZ7RSs !== 2 ||
+                counts.JXdy_RB7DyE !== 2 || counts["mk9G-R-exkI"] !== 2 ||
+                counts["0-Is2lVfuls"] !== 2 || counts.cRMZ0HH6R0Q !== 2 || values.youtubeIds[30] !== "cRMZ0HH6R0Q" || values.youtubeIds[71] !== "cRMZ0HH6R0Q") {
+                errors.push("protected occurrence count mismatch");
+            }
+            const titleVariants = [...new Set(occurrences
+                .filter((item) => item.video.youtubeId === "0-Is2lVfuls")
+                .map((item) => normalizeText(item.title)))];
+            if (titleVariants.length !== 2) errors.push("0-Is2lVfuls title variants mismatch");
+            const incompleteOccurrence = occurrences[49];
+            const incompleteTitle = Boolean(incompleteOccurrence &&
+                incompleteOccurrence.video.youtubeId === "lUbu8zZ7RSs" &&
+                incompleteOccurrence.title.includes("C₂H₄<sub"));
+            if (!incompleteTitle) errors.push("incomplete title fragment missing");
+
+            return {
+                errors,
+                fieldParity: Object.fromEntries(Object.keys(values).map((field) => [
+                    field,
+                    fingerprint(values[field]) === LEGACY_PARITY[field]
+                ])),
+                gradeCounts,
+                protectedCounts: counts,
+                titleVariants,
+                channelExceptions: CHANNEL_EXCEPTIONS,
+                incompleteTitle
+            };
+        }
+
+        function createLegacyCard(item) {
+            const card = document.createElement("div");
+            card.className = "card video-card";
+            card.dataset.experimentId = item.experiment.id;
+            card.dataset.youtubeId = item.video.youtubeId;
+            card.dataset.grade = String(item.experiment.grade);
+            card.dataset.badge = item.badge;
+
+            const thumb = document.createElement("div");
+            thumb.className = "thumb";
+            const image = document.createElement("img");
+            image.src = item.thumbnail;
+            image.alt = "Thumbnail: " + item.title;
+            image.loading = "lazy";
+            image.decoding = "async";
+
+            const play = document.createElement("a");
+            play.className = "play-btn";
+            play.href = item.ytLink;
+            play.target = "_blank";
+            play.rel = "noopener noreferrer";
+            play.setAttribute("aria-label", "Mở video: " + item.title);
+            play.textContent = "▶";
+            thumb.append(image, play);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+            const heading = document.createElement("h3");
+            heading.textContent = item.title;
+            const channel = document.createElement("p");
+            channel.className = "channel";
+            channel.textContent = item.video.channel;
+            content.append(heading, channel);
+            card.append(thumb, content);
+            return card;
+        }
+
+        async function initializePage() {
+            renderLoading(grids[0], "Đang tải danh sách thí nghiệm…");
+            try {
+                await repository.load();
+                const occurrences = await repository.getPageOccurrences("toanbo");
+                const parity = checkParity(occurrences);
+                if (parity.errors.length) {
+                    reportParity("TOANBO REPOSITORY PARITY FAIL: " + parity.errors.join("; "), false, parity);
+                    renderError(grids[0], "Không thể xác minh dữ liệu thí nghiệm. Vui lòng tải lại trang.");
+                    return;
+                }
+
+                const gradeGroups = [];
+                occurrences.forEach((item, index) => {
+                    const grade = item.experiment.grade;
+                    let group = gradeGroups[gradeGroups.length - 1];
+                    if (!group || group.grade !== grade) {
+                        group = { grade, start: index, end: index };
+                        gradeGroups.push(group);
+                    }
+                    group.end = index + 1;
+                });
+                if (grids.length !== 3 || gradeGroups.length !== 3 ||
+                    gradeGroups[0].grade !== 12 || gradeGroups[1].grade !== 11 || gradeGroups[2].grade !== 10) {
+                    reportParity("TOANBO REPOSITORY PARITY FAIL: legacy grade grid structure mismatch", false, parity);
+                    renderError(grids[0], "Không thể xác minh cấu trúc danh sách thí nghiệm. Vui lòng tải lại trang.");
+                    return;
+                }
+
+                const cards = occurrences.map(createLegacyCard);
+                gradeGroups.forEach((group, index) => {
+                    grids[index].replaceChildren(...cards.slice(group.start, group.end));
+                });
+                const searchIndex = createSearchIndex(occurrences, cards);
+                const updateResults = () => {
+                    const count = filterSearchIndex(searchIndex, {
+                        query: searchInput.value,
+                        grade: gradeFilter.value
+                    });
+                    resultCount.textContent = count;
+                    noResultMsg.hidden = count !== 0;
+                };
+                updateResults();
+                reportParity("TOANBO REPOSITORY PARITY PASS: 87/87 vị trí; phân bố L12 27, L11 37, L10 23; toàn bộ trường khớp. Có 3 channel legacy discrepancies đã canonicalize.", true, parity);
+
+                searchInput.addEventListener("input", updateResults);
+                gradeFilter.addEventListener("change", updateResults);
+                document.getElementById("clearSearchBtn").addEventListener("click", () => {
+                    searchInput.value = "";
+                    updateResults();
+                    searchInput.focus();
+                });
+                document.getElementById("resetFiltersBtn").addEventListener("click", () => {
+                    searchInput.value = "";
+                    gradeFilter.value = "all";
+                    updateResults();
+                    searchInput.focus();
+                });
+            } catch (error) {
+                reportParity("TOANBO REPOSITORY LOAD FAIL: " + error.message, false);
+                renderError(grids[0], "Không thể tải danh sách thí nghiệm. Vui lòng thử lại sau.");
+            }
+        }
+
+        initializePage();
+    </script>
+</body>
+</html>

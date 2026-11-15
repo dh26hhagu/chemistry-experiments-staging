@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tổng hợp thí nghiệm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body{
+            margin:0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:#f5f6f8;
+            color:#222;
+        }
+
+        /* ===== HEADER ===== */
+        .top{
+            padding:20px 30px;
+            background:white;
+            border-bottom:1px solid #ddd;
+        }
+
+        .top h1{
+            margin:0;
+            font-size:28px;
+        }
+
+        .tags{
+            margin-top:10px;
+        }
+
+        .tag{
+            display:inline-block;
+            border:1px solid #7a2bc2;
+            color:#7a2bc2;
+            padding:6px 12px;
+            border-radius:6px;
+            margin-right:8px;
+            font-size:14px;
+        }
+
+        /* ===== GRID ===== */
+        .container{
+            padding:30px;
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap:25px;
+        }
+
+        /* ===== CARD ===== */
+        .card{
+            background:white;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+        }
+
+        .thumb{
+            position:relative;
+            height:150px;
+            background:#ddd;
+        }
+
+        .thumb img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .new{
+            position:absolute;
+            top:10px;
+            right:-30px;
+            background:#e91e63;
+            color:white;
+            padding:5px 40px;
+            transform:rotate(45deg);
+            font-size:12px;
+            font-weight:bold;
+        }
+
+        .card-content{
+            padding:15px;
+        }
+
+        .card-content h3{
+            margin:0 0 10px;
+            font-size:18px;
+        }
+
+        .icons{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        .icon{
+            width:28px;
+            height:28px;
+            border-radius:6px;
+            background:#eee;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:14px;
+        }
+		.thumb{
+    position:relative;
+    height:150px;
+    background:#ddd;
+}
+
+.thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.play-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:rgba(0,0,0,0.6);
+    color:white;
+    font-size:30px;
+    padding:12px 18px;
+    border-radius:50%;
+    text-decoration:none;
+}
+.thumb iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+.search-box{
+    margin-top:15px;
+}
+
+.search-box input{
+    width:100%;
+    max-width:420px;
+    padding:10px 14px;
+    font-size:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:#7a2bc2;
+}
+.top-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.back-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#7a2bc2;
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#5a1e96;
+    transform:scale(1.05);
+}
+.channel{
+    margin:0;
+    font-size:14px;
+    color:#666;
+}
+
+    </style>
+	</style>
+    <link rel="stylesheet" href="ui-system.css">
+    <link rel="stylesheet" href="search-filter.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="top">
+    <div class="top-bar">
+        <h1><span id="resultCount" aria-live="polite" aria-atomic="true">0</span> Kết quả</h1>
+
+        <!-- Nút trở về -->
+        <a href="thinghiem.html" class="back-btn" title="Quay lại">
+            ⬅
+        </a>
+    </div>
+
+    <!-- Ô tìm kiếm -->
+    <div class="search-box search-controls">
+        <label class="visually-hidden" for="searchInput">Tìm theo tiêu đề, kênh YouTube hoặc từ khóa</label>
+        <input type="text" id="searchInput" placeholder="🔍 Tìm thí nghiệm, video, nội dung...">
+        <button type="button" id="clearSearchBtn">Xóa tìm kiếm</button>
+    </div>
+</div>
+
+
+    </div>
+<div class="card">
+   
+</div>
+
+    <!-- CONTENT -->
+    <div class="container">
+        <p id="noResultMsg" class="search-no-results" role="status" aria-live="polite" hidden>Không tìm thấy video thí nghiệm nào phù hợp.</p>
+        <div class="grid" id="videoGrid"></div>
+
+            
+                
+
+    <script type="module">
+        import * as repository from "./experiment-repository.js";
+        import { renderLoading, renderError } from "./components/ui.js";
+        import { createSearchIndex, filterSearchIndex } from "./search-filter.js";
+
+        // Per-field fingerprints capture the legacy ordered baseline without duplicating its records here.
+        const LEGACY_PARITY = {"youtubeIds":"b82ee206:c4ff5154","titles":"2460d6f0:fbf2e532","thumbnails":"a786754f:b43466f3","urls":"e22fd148:d4a6bee4","channels":"683c90b1:80ec5891","badges":"1ca860a7:b615eec7","grades":"0db8ff2e:8eec3840"};
+        const grid = document.getElementById("videoGrid");
+        const searchInput = document.getElementById("searchInput");
+        const resultCount = document.getElementById("resultCount");
+        const isRepositoryCheck = new URLSearchParams(window.location.search).has("repository-check");
+
+        function normalizeText(value) {
+            return String(value ?? "").trim().replace(/\s+/g, " ");
+        }
+
+        function fingerprint(values) {
+            const serialized = JSON.stringify(values);
+            let first = 2166136261;
+            let second = 5381;
+            for (let index = 0; index < serialized.length; index += 1) {
+                const character = serialized.charCodeAt(index);
+                first = Math.imul(first ^ character, 16777619) >>> 0;
+                second = (Math.imul(second, 33) ^ character) >>> 0;
+            }
+            return first.toString(16).padStart(8, "0") + ":" + second.toString(16).padStart(8, "0");
+        }
+
+        function reportParity(message, passed, details = {}) {
+            window.lop12RepositoryParity = { passed, message, ...details };
+            if (!isRepositoryCheck) return;
+            let status = document.getElementById("repositoryCheckStatus");
+            if (!status) {
+                status = document.createElement("p");
+                status.id = "repositoryCheckStatus";
+                status.setAttribute("role", passed ? "status" : "alert");
+                status.style.cssText = "padding:12px 30px;margin:0;background:#fff;color:#222";
+                document.querySelector(".top").append(status);
+            }
+            status.textContent = message;
+        }
+
+        function checkParity(occurrences) {
+            const values = {
+                youtubeIds: occurrences.map((item) => item.video.youtubeId),
+                titles: occurrences.map((item) => normalizeText(item.title)),
+                thumbnails: occurrences.map((item) => item.thumbnail),
+                urls: occurrences.map((item) => item.ytLink),
+                channels: occurrences.map((item) => normalizeText(item.video.channel)),
+                badges: occurrences.map((item) => item.badge),
+                grades: occurrences.map((item) => item.experiment.grade)
+            };
+            const errors = [];
+            if (occurrences.length !== 27) errors.push("count expected 27, got " + occurrences.length);
+            for (const [field, actualValues] of Object.entries(values)) {
+                if (fingerprint(actualValues) !== LEGACY_PARITY[field]) errors.push(field + " ordered parity mismatch");
+            }
+            return { errors, fieldParity: Object.fromEntries(Object.keys(values).map((field) => [field, !errors.some((error) => error.startsWith(field + " "))])) };
+        }
+
+        function createLegacyCard(item) {
+            const card = document.createElement("div");
+            card.className = "card video-card";
+            card.dataset.experimentId = item.experiment.id;
+            card.dataset.youtubeId = item.video.youtubeId;
+            card.dataset.grade = String(item.experiment.grade);
+            card.dataset.badge = item.badge;
+
+            const thumb = document.createElement("div");
+            thumb.className = "thumb";
+            const image = document.createElement("img");
+            image.src = item.thumbnail;
+            image.alt = "Thumbnail: " + item.title;
+            image.loading = "lazy";
+            image.decoding = "async";
+
+            const play = document.createElement("a");
+            play.className = "play-btn";
+            play.href = item.ytLink;
+            play.target = "_blank";
+            play.rel = "noopener noreferrer";
+            play.setAttribute("aria-label", "Mở video: " + item.title);
+            play.textContent = "▶";
+            thumb.append(image, play);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+            const heading = document.createElement("h3");
+            heading.textContent = item.title;
+            const channel = document.createElement("p");
+            channel.className = "channel";
+            channel.textContent = item.video.channel;
+            content.append(heading, channel);
+            card.append(thumb, content);
+            return card;
+        }
+
+        async function initializePage() {
+            renderLoading(grid, "Đang tải danh sách thí nghiệm…");
+            try {
+                await repository.load();
+                const occurrences = await repository.getPageOccurrences("lop12");
+                const parity = checkParity(occurrences);
+                if (parity.errors.length) {
+                    reportParity("LOP12 REPOSITORY PARITY FAIL: " + parity.errors.join("; "), false, parity);
+                    renderError(grid, "Không thể xác minh dữ liệu Lớp 12. Vui lòng tải lại trang.");
+                    return;
+                }
+
+                const cards = occurrences.map(createLegacyCard);
+                grid.replaceChildren(...cards);
+                const searchIndex = createSearchIndex(occurrences, cards);
+                const updateResults = () => {
+                    const count = filterSearchIndex(searchIndex, { query: searchInput.value });
+                    resultCount.textContent = count;
+                    noResultMsg.hidden = count !== 0;
+                };
+                updateResults();
+                reportParity("LOP12 REPOSITORY PARITY PASS: 27/27 vị trí; YouTube IDs, titles, thumbnails, URLs, channels, badge và grade khớp baseline.", true, parity);
+
+                searchInput.addEventListener("input", updateResults);
+                document.getElementById("clearSearchBtn").addEventListener("click", () => {
+                    searchInput.value = "";
+                    updateResults();
+                    searchInput.focus();
+                });
+            } catch (error) {
+                reportParity("LOP12 REPOSITORY LOAD FAIL: " + error.message, false);
+                renderError(grid, "Không thể tải danh sách thí nghiệm. Vui lòng thử lại sau.");
+            }
+        }
+
+        initializePage();
+    </script>
+    <script src="ui-enhance.js"></script>
+    <script src="ui-enhance.js"></script>
+</body>
+</html>
